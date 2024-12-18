@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/login.css">
 </head>
 <body>
     <div class="login-container">
@@ -12,12 +12,12 @@
             <img src="../static/logo/nhesLogo.png" alt="Logo">
         </div>
         <div class="login-form">
-            <form action="" method="post">
+            <form action="/login" method="post">
                 <label for="username">班級座號</label>
-                <input type="text" id="username" placeholder="30XXX">
+                <input type="text" name="userid" placeholder="30XXX">
 
                 <label for="password">學號</label>
-                <input type="password" id="password" placeholder="111XXX">
+                <input type="password" name="password" placeholder="111XXX">
                 <button type="submit">Log In</button>
             </form>
         </div>
