@@ -7,6 +7,41 @@
     <link rel="stylesheet" href="../static/dashboard.css">
 </head>
 <body>
+    <div class="dashboard">
+        <header class="header">
+            <div class="user-info">
+                <h1>Welcome, {{ username }}</h1>
+                <p>Role: {{ role }}</p>
+                
+            </div>
+        </header>
+
+        <section class="progress-overview">
+            <h2>你的進度</h2>
+            <div class="progress-bar">
+                <div class="progress" style="width: 70%;"></div>
+            </div>
+            <p>{{ Completed }}% Completed</p>
+        </section>
+
+        <section class="challenges">
+            <h2>所有挑戰</h2>
+            <ul>
+                <li>
+                    <div class="challenge-info">
+                        <h3>Challenge {{ challenge_number }}: {{ challenge_name }}</h3>
+                        <p>Status: {{ status }}</p>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 100%;"></div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <div class="logout-btn-b">
+            <a href="/logout" class="logout-btn">Log Out</a>
+        </div>
+    </div>
     
 </body>
 </html>

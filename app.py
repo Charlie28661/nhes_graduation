@@ -1,11 +1,12 @@
-import flask
+import db
+from flask import Flask
 from flask import url_for
 from flask import session
 from flask import request
 from flask import redirect
 from flask import render_template
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 app.secret_key = "NHES"
 
 @app.route("/", methods = ["GET", "POST"])
@@ -28,7 +29,11 @@ def logout():
 @app.route("/dashboard")
 def dashboard():
 
-    return render_template("dashboard.html")
+    username = session.get("username")
+    if "username" not in session:
+        return redirect(url_for("login"))
+
+    return render_template("dashboard.html", **locals())
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5800, debug=True)
