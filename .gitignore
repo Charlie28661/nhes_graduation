@@ -1,3 +1,7 @@
 *.db
+.env
+.config
 .DS_Store
 __pycache__/*
+*.log
+cal.py

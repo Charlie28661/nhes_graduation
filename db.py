@@ -1,14 +1,20 @@
 import sqlite3
+from flask import g
+from flask import Flask
 
-#init
-def create_table():
-    con = sqlite3.connect("database.db")
-    cur = con.cursor()
-    cur.execute('''CREATE TABLE users
-                (ID text, CLASS text, NAME text)''')
-    cur.execute("INSERT INTO users VALUES ('','','')")
-    con.commit()
-    con.close()
+app = Flask(__name__)
 
-#create_table()
+DATABASE = "database.db"
 
+def get_db():
+    db = getattr(g, "_database", None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+def selectUserDataById(id):
+    with app.app_context():
+        cur = get_db().cursor()
+        get_date = cur.execute("SELECT * FROM users WHERE ID = ?", (id,))
+        data = get_date.fetchone()
+        return data

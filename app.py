@@ -1,4 +1,6 @@
 import db
+import sqlite3
+from flask import g
 from flask import Flask
 from flask import url_for
 from flask import session
@@ -6,8 +8,15 @@ from flask import request
 from flask import redirect
 from flask import render_template
 
+
 app = Flask(__name__)
 app.secret_key = "NHES"
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, "_database", None)
+    if db is not None:
+        db.close()
 
 @app.route("/", methods = ["GET", "POST"])
 @app.route("/login", methods = ["GET", "POST"])
@@ -16,8 +25,12 @@ def login():
     if request.method == "POST":
         userId = request.values["userid"]
         password = request.values["password"]
-        session["username"] = userId
-        return redirect(url_for("dashboard"))
+
+        if userId == db.selectUserDataById(userId)[1]:
+            session["username"] = userId
+            return redirect(url_for("dashboard"))
+        else:
+            return redirect(url_for("login"))
 
     return render_template("login.html")
 
