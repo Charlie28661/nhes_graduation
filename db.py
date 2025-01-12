@@ -15,6 +15,9 @@ def get_db():
 def selectUserDataById(id):
     with app.app_context():
         cur = get_db().cursor()
-        get_date = cur.execute("SELECT * FROM users WHERE ID = ?", (id,))
-        data = get_date.fetchone()
+        cur.execute("SELECT * FROM users WHERE ID = ?", (id,))
+        data = cur.fetchone()
         return data
+    
+checkUser = selectUserDataById(111004)[1]
+print(checkUser)

@@ -26,7 +26,9 @@ def login():
         userId = request.values["userid"]
         password = request.values["password"]
 
-        if userId == db.selectUserDataById(userId)[1]:
+        checkUser = db.selectUserDataById(userId)
+
+        if userId == checkUser[0] and password == checkUser[1]:
             session["username"] = userId
             return redirect(url_for("dashboard"))
         else:
