@@ -85,12 +85,11 @@ def admin():
     if request.method == "POST":
         adminId = request.values["adminId"]
         password = request.values["password"]
-        print(adminId, password)
 
         userData = db.selectUserDataById(adminId)
 
         if userData is not None:
-            if adminId == userData[0] and password == userData[1]:
+            if adminId == userData[0] and password == userData[1] and userData[3] == "admin":
                 session["admin"] = adminId
                 return redirect(url_for("adminPanel"))
             else:
