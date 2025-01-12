@@ -18,6 +18,3 @@ def selectUserDataById(id):
         cur.execute("SELECT * FROM users WHERE ID = ?", (id,))
         data = cur.fetchone()
         return data
-    
-checkUser = selectUserDataById(111004)[1]
-print(checkUser)

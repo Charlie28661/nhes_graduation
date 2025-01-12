@@ -22,19 +22,21 @@ def close_connection(exception):
 @app.route("/login", methods = ["GET", "POST"])
 def login():
 
+    error = None
     if request.method == "POST":
         userId = request.values["userid"]
         password = request.values["password"]
 
         checkUser = db.selectUserDataById(userId)
 
-        if userId == checkUser[0] and password == checkUser[1]:
-            session["username"] = userId
-            return redirect(url_for("dashboard"))
-        else:
-            return redirect(url_for("login"))
+        if checkUser is not None:
+            if userId == checkUser[0] and password == checkUser[1]:
+                session["username"] = userId
+                return redirect(url_for("dashboard"))
+            else:
+                error = "請輸入正確帳號密碼"
 
-    return render_template("login.html")
+    return render_template("login.html", **locals())
 
 @app.route("/logout")
 def logout():
