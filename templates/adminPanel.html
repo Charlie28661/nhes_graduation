@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="../static/adminPanel.css">
+    <link rel="icon" type="image/png" href="/static/logo/nhesLogo.png">
+</head>
+<body>
+
+    <div class="tabs">
+        <div class="tab" id="tab1" onclick="showTab(1)">成員列表</div>
+        <div class="tab" id="tab2" onclick="showTab(2)">題目列表</div>
+        <div class="tab" id="tab3" onclick="showTab(3)">題目管理</div>
+    </div>
+
+    <div class="tab-content" id="content1">
+        <h2>成員列表</h2>
+        <br>
+        <table class="demTable">
+            <thead>
+                <tr>
+                    <th>使用者帳號 (學號)</th>
+                    <th>使用者密碼 (班級座號)</th>
+                    <th>使用者名稱</th>
+                    <th>使用者身份</th>
+                    <th>挑戰完成度</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for getAllUser in getAllUserData %}
+                <tr>
+                    <td>{{ getAllUser[0] }}</td>
+                    <td>{{ getAllUser[1] }}</td>
+                    <td>{{ getAllUser[2] }}</td>
+                    <td>{{ getAllUser[3] }}</td>
+                    <td>{{ getAllUser[4] }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-content" id="content2">
+        <h2>題目列表</h2>
+        <p>這裡是頁籤 2 的詳細內容。</p>
+    </div>
+    <div class="tab-content" id="content3">
+        <h2>題目管理</h2>
+        <p>這裡是頁籤 3 的詳細內容。</p>
+    </div>
+
+    <div class="logout-btn-b">
+        <a href="/logout" class="logout-btn">登出</a>
+    </div>
+
+    <script>
+        function showTab(tabNumber) {
+
+            let contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+            content.classList.remove('active');
+        });
+
+
+        let tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        document.getElementById('content' + tabNumber).classList.add('active');
+
+        document.getElementById('tab' + tabNumber).classList.add('active');
+    }
+
+        showTab(1);
+    </script>
+</body>
+</html>

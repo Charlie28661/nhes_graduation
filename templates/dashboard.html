@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="../static/dashboard.css">
+    <link rel="icon" type="image/png" href="/static/logo/nhesLogo.png">
 </head>
 <body>
     <div class="dashboard">
@@ -19,27 +20,31 @@
         <section class="progress-overview">
             <h2>你的進度</h2>
             <div class="progress-bar">
-                <div class="progress" style="width: 70%;"></div>
+                <div class="progress" style="width: {{ percentage }}%;"></div>
             </div>
-            <p>{{ Completed }}% Completed</p>
+            <p>已完成 {{ percentage }}%</p>
         </section>
 
         <section class="challenges">
             <h2>所有挑戰</h2>
-            <ul>
-                <li>
-                    <div class="challenge-info">
-                        <h3>Challenge {{ challenge_number }}: {{ challenge_name }}</h3>
-                        <p>Status: {{ status }}</p>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 100%;"></div>
-                    </div>
-                </li>
-            </ul>
+            <div class="challenge-info">
+
+                {% for challenge in allChallenge %}
+                    <h3>Challenge {{ challenge.labId }}: {{ challenge.name }}</h3>
+                    <p>Description: {{ challenge.description }}</p>
+                    {% for answerStatus in checkAnswerStatus %}
+                        {% if answerStatus.labId == challenge.labId and answerStatus.status == "Completed" %}
+                            <p>Status: <strong style="color: green;">已完成</strong></p>
+                        {% else %}
+                            <p>Status: <strong style="color: red;">未完成</strong></p>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+
+            </div>
         </section>
         <div class="logout-btn-b">
-            <a href="/logout" class="logout-btn">Log Out</a>
+            <a href="/logout" class="logout-btn">登出</a>
         </div>
     </div>
 

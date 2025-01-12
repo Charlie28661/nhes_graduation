@@ -1,0 +1,104 @@
+@charset "UTF-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.tab {
+    padding: 10px 20px;
+    background-color: #ccc;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.tab:hover {
+    background-color: #aaa;
+}
+
+.tab.active {
+    background-color: #0073ea;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.logout-btn-b {
+    text-align: center;
+}
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #e74c3c;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #c0392b;
+}
+
+
+.demTable {
+    width: 100%;
+    height: 100%;
+    border: 1px none #b3adad;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+.demTable th {
+    border: 1px none #b3adad;
+    padding: 5px;
+    background: #0073ea;
+    color: #ffffff;
+}
+
+.demTable td {
+    border: 1px none #b3adad;
+    text-align: center;
+    padding: 5px;
+    background: #ffffff;
+    color: #313030;
+}
+
+.demTable tr:nth-child(even) td {
+    background: #f2f2f2;
+}
+
+.demTable tr:nth-child(odd) td {
+    background: #ffffff;
+}
+
+.demTable tr:hover td {
+    background-color: #e6f7ff;
+}

@@ -1,0 +1,22 @@
+[
+    {
+        "userId": 111004,
+        "labId": 1,
+        "status": "Completed"
+    },
+    {
+        "userId": 111004,
+        "labId": 2,
+        "status": "Completed"
+    },
+    {
+        "userId": 111004,
+        "labId": 3,
+        "status": "Completed"
+    },
+    {
+        "userId": 111005,
+        "labId": 1,
+        "status": "Completed"
+    }
+]

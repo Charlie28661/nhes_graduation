@@ -1,5 +1,4 @@
 import db
-import sqlite3
 from flask import g
 from flask import Flask
 from flask import url_for
@@ -18,7 +17,7 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-@app.route("/", methods = ["GET", "POST"])
+##
 @app.route("/login", methods = ["GET", "POST"])
 def login():
 
@@ -56,6 +55,7 @@ def dashboard():
         return redirect(url_for("login"))
 
     userData = db.selectUserDataById(username)
+    userId = userData[0]
     userName = userData[2]
     userRole = userData[3]
 
@@ -64,7 +64,51 @@ def dashboard():
     elif userRole == "teacher":
         userRole = "教師"
 
+    allChallenge = db.challengeJson()
+    checkAnswerStatus = db.lookupAnswerFile(int(userId))
+    challengeData = db.getChallenge()
+    maxChallenge = max(challengeData, key=lambda x: x["labId"])["labId"]
+
+    percentage = (len(checkAnswerStatus) / maxChallenge) * 100
+    percentage = int(percentage)
+    db.updatePercentage(percentage, userId)
+
     return render_template("dashboard.html", **locals())
+
+@app.route("/", methods = ["GET", "POST"])
+@app.route("/admin", methods = ["GET", "POST"])
+def admin():
+
+    admin = session.get("admin")
+    if "admin" in session:
+        return redirect(url_for("adminPanel"))
+
+    if request.method == "POST":
+        adminId = request.values["adminId"]
+        password = request.values["password"]
+        print(adminId, password)
+
+        userData = db.selectUserDataById(adminId)
+
+        if userData is not None:
+            if adminId == userData[0] and password == userData[1]:
+                session["admin"] = adminId
+                return redirect(url_for("adminPanel"))
+            else:
+                return render_template("admin.html")
+
+    return render_template("admin.html")
+
+@app.route("/adminPanel")
+def adminPanel():
+
+    admin = session.get("admin")
+    if "admin" not in session:
+        return redirect(url_for("admin"))
+
+    getAllUserData = db.selectAllUserData()
+
+    return render_template("adminPanel.html", **locals())
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5800, debug=True)
