@@ -17,7 +17,7 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-##
+@app.route("/", methods = ["GET", "POST"])
 @app.route("/login", methods = ["GET", "POST"])
 def login():
 
@@ -75,7 +75,6 @@ def dashboard():
 
     return render_template("dashboard.html", **locals())
 
-@app.route("/", methods = ["GET", "POST"])
 @app.route("/admin", methods = ["GET", "POST"])
 def admin():
 
