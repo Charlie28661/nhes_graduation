@@ -22,16 +22,21 @@ def close_connection(exception):
 @app.route("/login", methods = ["GET", "POST"])
 def login():
 
+    username = session.get("username")
+    if "username" in session:
+        return redirect(url_for("dashboard"))
+
     error = None
     if request.method == "POST":
         userId = request.values["userid"]
         password = request.values["password"]
 
-        checkUser = db.selectUserDataById(userId)
+        userData = db.selectUserDataById(userId)
 
-        if checkUser is not None:
-            if userId == checkUser[0] and password == checkUser[1]:
+        if userData is not None:
+            if userId == userData[0] and password == userData[1]:
                 session["username"] = userId
+
                 return redirect(url_for("dashboard"))
             else:
                 error = "請輸入正確帳號密碼"
@@ -49,6 +54,15 @@ def dashboard():
     username = session.get("username")
     if "username" not in session:
         return redirect(url_for("login"))
+
+    userData = db.selectUserDataById(username)
+    userName = userData[2]
+    userRole = userData[3]
+
+    if userRole == "student":
+        userRole = "學生"
+    elif userRole == "teacher":
+        userRole = "教師"
 
     return render_template("dashboard.html", **locals())
 
