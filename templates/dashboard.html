@@ -30,15 +30,20 @@
             <div class="challenge-info">
 
                 {% for challenge in allChallenge %}
-                    <h3>Challenge {{ challenge.labId }}: {{ challenge.name }}</h3>
-                    <p>Description: {{ challenge.description }}</p>
-                    {% for answerStatus in checkAnswerStatus %}
+                    <div class="tab-header" onclick="toggleContent('content{{ challenge.labId }}')">
+                        <span>Challenge {{ challenge.labId }}: {{ challenge.name }}</span>
+                        <div class="arrow"></div>
+                    </div>
+                    <div class="tab-content" id="content{{ challenge.labId }}">
+                        <p>Description: {{ challenge.description }}</p>
+                    </div>
+                    <!-- {% for answerStatus in checkAnswerStatus %}
                         {% if answerStatus.labId == challenge.labId and answerStatus.status == "Completed" %}
                             <p>Status: <strong style="color: green;">已完成</strong></p>
                         {% else %}
                             <p>Status: <strong style="color: red;">未完成</strong></p>
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %} -->
                 {% endfor %}
 
             </div>
@@ -48,5 +53,15 @@
         </div>
     </div>
 
+    <script>
+        function toggleContent(contentId) {
+            const content = document.getElementById(contentId);
+            const header = content.previousElementSibling;
+    
+            content.classList.toggle('active');
+    
+            header.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
