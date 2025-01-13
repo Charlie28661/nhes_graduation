@@ -43,7 +43,29 @@
     </div>
     <div class="tab-content" id="content2">
         <h2>題目列表</h2>
-        <p>這裡是頁籤 2 的詳細內容。</p>
+        <br>
+        <table class="demTable">
+            <thead>
+                <tr>
+                    <th>題目序號</th>
+                    <th>題目名稱</th>
+                    <th>題目敘述</th>
+                    <th>題目分數</th>
+                    <th>題目狀況</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for challenge in allChallenge %}
+                <tr>
+                    <td>{{ challenge["labId"] }}</td>
+                    <td>{{ challenge["name"] }}</td>
+                    <td>{{ challenge["description"] }}</td>
+                    <td>{{ challenge["score"] }}</td>
+                    <td>{{ challenge["active"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     <div class="tab-content" id="content3">
         <h2>題目管理</h2>

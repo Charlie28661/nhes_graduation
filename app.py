@@ -66,12 +66,19 @@ def dashboard():
 
     allChallenge = db.challengeJson()
     checkAnswerStatus = db.lookupAnswerFile(int(userId))
-    challengeData = db.getChallenge()
-    maxChallenge = max(challengeData, key=lambda x: x["labId"])["labId"]
+
+    maxChallenge = max(allChallenge, key=lambda x: x["labId"])["labId"]
 
     percentage = (len(checkAnswerStatus) / maxChallenge) * 100
     percentage = int(percentage)
     db.updatePercentage(percentage, userId)
+
+    for challenge in allChallenge:
+        challenge["completed"] = any(
+            answerStatus["labId"] == challenge["labId"] and answerStatus["status"] == "Completed"
+            for answerStatus in checkAnswerStatus
+        )
+
 
     return render_template("dashboard.html", **locals())
 
@@ -105,6 +112,7 @@ def adminPanel():
         return redirect(url_for("admin"))
 
     getAllUserData = db.selectAllUserData()
+    allChallenge = db.challengeJson()
 
     return render_template("adminPanel.html", **locals())
 

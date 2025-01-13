@@ -81,8 +81,3 @@ def lookupAnswerFile(userId):
             })
 
     return result
-
-def getChallenge():
-    with open(challengeFile, "r") as file:
-        data = json.load(file)
-    return data
