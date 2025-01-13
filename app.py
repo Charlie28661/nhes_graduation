@@ -67,18 +67,19 @@ def dashboard():
     allChallenge = db.challengeJson()
     checkAnswerStatus = db.lookupAnswerFile(int(userId))
 
-    maxChallenge = max(allChallenge, key=lambda x: x["labId"])["labId"]
-
-    percentage = (len(checkAnswerStatus) / maxChallenge) * 100
-    percentage = int(percentage)
-    db.updatePercentage(percentage, userId)
+    if allChallenge:
+        maxChallenge = max(allChallenge, key=lambda x: x["labId"])["labId"]
+        percentage = (len(checkAnswerStatus) / maxChallenge) * 100
+        percentage = int(percentage)
+        db.updatePercentage(percentage, userId)
+    else:
+        maxChallenge = None
 
     for challenge in allChallenge:
         challenge["completed"] = any(
             answerStatus["labId"] == challenge["labId"] and answerStatus["status"] == "Completed"
             for answerStatus in checkAnswerStatus
         )
-
 
     return render_template("dashboard.html", **locals())
 
@@ -104,7 +105,7 @@ def admin():
 
     return render_template("admin.html")
 
-@app.route("/adminPanel")
+@app.route("/adminPanel", methods = ["GET", "POST"])
 def adminPanel():
 
     admin = session.get("admin")
@@ -113,8 +114,46 @@ def adminPanel():
 
     getAllUserData = db.selectAllUserData()
     allChallenge = db.challengeJson()
+    if allChallenge:
+        maxChallenge = max(allChallenge, key=lambda x: x["labId"])["labId"]
+    else:
+        maxChallenge = 0
+
+    if request.method == "POST":
+        labId = request.values["labId"]
+        labName = request.values["name"]
+        labDescription = request.values["description"]
+        labScore = request.values["score"]
+        labActive = request.values["active"]
+
+        labId = int(labId)
+
+        if len(labName) == 0:
+            labName = str(allChallenge[labId-1]["name"])
+            
+        if len(labDescription) == 0:
+            labDescription = str(allChallenge[labId-1]["description"])
+        
+        if labId > maxChallenge:
+            db.addChallenge(labId, labName, labDescription, labScore, labActive)
+            return redirect(url_for("adminPanel"))
+        else:
+            db.updateLab(labId, labName, labDescription, labScore, labActive)
+            return redirect(url_for("adminPanel"))
+
 
     return render_template("adminPanel.html", **locals())
+
+@app.route("/setPercentageZero")
+def setPercentageZero():
+
+    admin = session.get("admin")
+    if "admin" not in session:
+        return redirect(url_for("admin"))
+
+    db.setPercentageZero()
+    return redirect(url_for("adminPanel"))
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5800, debug=True)

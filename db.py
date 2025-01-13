@@ -36,6 +36,13 @@ def updatePercentage(percentage, id):
         get_db().commit()
         cur.close()
 
+def setPercentageZero():
+    with app.app_context():
+        cur = get_db().cursor()
+        cur.execute("UPDATE users SET percentage = 0;")
+        get_db().commit()
+        cur.close()
+
 ## json
 
 challengeFile = "challenge.json"
@@ -44,6 +51,8 @@ answerFile = "answer.json"
 def challengeJson():
     with open(challengeFile, "r") as file:
         data = json.load(file)
+        if data is None:
+            pass
         return data
 
 def answerChallenge(userId, labId, status):
@@ -57,13 +66,15 @@ def answerChallenge(userId, labId, status):
     try:
         with open(answerFile, "r") as file:
             data = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except(FileNotFoundError, json.JSONDecodeError):
         data = []
 
     data.append(new_entry)
 
     with open(answerFile, "w") as file:
         json.dump(data, file, indent=4)
+
+#answerChallenge(111004, 1, "Completed")
 
 def lookupAnswerFile(userId):
     try:
@@ -81,3 +92,42 @@ def lookupAnswerFile(userId):
             })
 
     return result
+
+def addChallenge(labId, labName, labDescription, labScore, labActive):
+
+    new_entry = {
+        "labId": int(labId),
+        "name": labName,
+        "description": labDescription,
+        "score": int(labScore),
+        "active": labActive
+    }
+
+    try:
+        with open(challengeFile, "r") as file:
+            data = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        data = []
+
+    data.append(new_entry)
+
+    with open(challengeFile, "w") as file:
+        json.dump(data, file, indent=4)
+
+
+def updateLab(labId, labName, labDescription, labScore, labActive):
+    
+    with open(challengeFile, "r") as file:
+        data = json.load(file)
+
+    for challenge in data:
+        if int(labId) == int(challenge["labId"]):
+            challenge["labId"] = int(labId)
+            challenge["name"] = labName
+            challenge["description"] = labDescription
+            challenge["score"] = int(labScore)
+            challenge["active"] = labActive
+            break
+
+    with open(challengeFile, 'w') as f:
+        json.dump(data, f, indent=4)

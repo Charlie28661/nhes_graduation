@@ -68,15 +68,62 @@
         </table>
     </div>
     <div class="tab-content" id="content3">
-        <h2>題目管理</h2>
-        <p>這裡是頁籤 3 的詳細內容。</p>
+        <h2>修改或新增題目</h2>
+        <br>
+        <div class="login-form">
+            <form action="/adminPanel" method="post">
+                <label for="labId">題目序號</label>
+                <select name="labId">
+                    {% for selectNum in allChallenge %}
+                        <option value="{{ selectNum.labId }}">{{ selectNum.labId }}</option>
+                    {% endfor %}
+                    <option value="{{ maxChallenge + 1}}">{{ maxChallenge + 1}} (新增題目)</option>
+                </select>
+
+                <label for="name">題目名稱</label>
+                <input type="text" name="name">
+
+                <label for="description">題目敘述</label>
+                <input type="text" name="description">
+
+                <label for="score">題目分數</label>
+                <select name="score">
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="300">300</option>
+                </select>
+
+                <label for="active">題目顯示</label>
+                <select name="active">
+                    <option value="Visible">顯示</option>
+                    <option value="Invisible">不顯示</option>
+                </select>
+
+                <button type="submit">確定</button>
+            </form>
+        </div>
     </div>
 
     <div class="logout-btn-b">
-        <a href="/logout" class="logout-btn">登出</a>
+        <a href="/setPercentageZero" class="logout-btn" onclick="showConfirm(event)">重置</a>
+        <a href="/logout" class="logout-btn-bb">登出</a>
     </div>
 
     <script>
+        function showConfirm(event) {
+
+            event.preventDefault();
+
+            var result = confirm("確定要重置比例嗎? 建議在沒有題目下使用");
+            if (result) {
+                
+                window.location.href = "/setPercentageZero";
+            } else {
+                
+                alert("重置操作已取消");
+            }
+        }
+
         function showTab(tabNumber) {
 
             let contents = document.querySelectorAll('.tab-content');
