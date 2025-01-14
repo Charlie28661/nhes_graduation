@@ -154,6 +154,25 @@ def setPercentageZero():
     db.setPercentageZero()
     return redirect(url_for("adminPanel"))
 
+@app.route("/showAllChallenge")
+def showAllChallenge():
+
+    admin = session.get("admin")
+    if "admin" not in session:
+        return redirect(url_for("admin"))
+
+    db.showAllChallenge()
+    return redirect(url_for("adminPanel"))
+
+@app.route("/hideAllChallenge")
+def hideAllChallenge():
+
+    admin = session.get("admin")
+    if "admin" not in session:
+        return redirect(url_for("admin"))
+
+    db.hideAllChallenge()
+    return redirect(url_for("adminPanel"))
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5800, debug=True)

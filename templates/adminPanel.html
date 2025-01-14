@@ -6,6 +6,7 @@
     <title>Admin Panel</title>
     <link rel="stylesheet" href="../static/adminPanel.css">
     <link rel="icon" type="image/png" href="/static/logo/nhesLogo.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
@@ -52,6 +53,7 @@
                     <th>題目敘述</th>
                     <th>題目分數</th>
                     <th>題目狀況</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -66,6 +68,10 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="logout-btn-b">
+            <a href="/hideAllChallenge" class="logout-btn">全部隱藏</a>
+            <a href="/showAllChallenge" class="logout-btn-bb">全部顯示</a>
+        </div>
     </div>
     <div class="tab-content" id="content3">
         <h2>修改或新增題目</h2>
@@ -110,6 +116,7 @@
     </div>
 
     <script>
+
         function showConfirm(event) {
 
             event.preventDefault();

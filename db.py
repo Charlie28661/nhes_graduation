@@ -131,3 +131,24 @@ def updateLab(labId, labName, labDescription, labScore, labActive):
 
     with open(challengeFile, 'w') as f:
         json.dump(data, f, indent=4)
+
+def showAllChallenge():
+
+    with open(challengeFile, "r") as file:
+        data = json.load(file)
+    
+    for hideChallenge in data:
+        hideChallenge["active"] = "Visible"
+    
+    with open(challengeFile, 'w') as f:
+        json.dump(data, f, indent=4)
+
+def hideAllChallenge():
+    with open(challengeFile, "r") as file:
+            data = json.load(file)
+        
+    for hideChallenge in data:
+        hideChallenge["active"] = "Invisible"
+    
+    with open(challengeFile, 'w') as f:
+        json.dump(data, f, indent=4)
