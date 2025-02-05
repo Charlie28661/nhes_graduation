@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoreboard</title>
+    <link rel="stylesheet" href="/static/scoreboard.css">
+    <link rel="icon" type="image/png" href="/static/logo/nhesLogo.png">
+</head>
+<body>
+    <div class="container">
+        <h1>排行榜</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>排名</th>
+                    <th>玩家名稱</th>
+                    <th>完成度</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr>
+                    <td>1</td>
+                    <td class="highlight">玩家A</td>
+                    <td>1500</td>
+                </tr> -->
+                {% for getAllUser in getAllUserData %}
+                <tr>
+                    <td>1</td>
+                    <td>{{ getAllUser[2] }}</td>
+                    <td>{{ getAllUser[4] }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

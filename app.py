@@ -130,10 +130,10 @@ def adminPanel():
 
         if len(labName) == 0:
             labName = str(allChallenge[labId-1]["name"])
-            
+
         if len(labDescription) == 0:
             labDescription = str(allChallenge[labId-1]["description"])
-        
+
         if labId > maxChallenge:
             db.addChallenge(labId, labName, labDescription, labScore, labActive)
             return redirect(url_for("adminPanel"))
@@ -143,6 +143,14 @@ def adminPanel():
 
 
     return render_template("adminPanel.html", **locals())
+
+@app.route("/scoreboard")
+def scoreboard():
+
+    getAllUserData = db.selectAllUserData()
+
+    return render_template("scoreboard.html", **locals())
+
 
 @app.route("/setPercentageZero")
 def setPercentageZero():

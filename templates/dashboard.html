@@ -38,7 +38,7 @@
 
                 {% if allChallenge %}
                     {% for challenge in allChallenge %}
-                        
+
                         {%  if challenge.active == "Visible" %}
                             <div class="tab-header" onclick="toggleContent('content{{ challenge.labId }}')">
                                 <span>任務 {{ challenge.labId }}: {{ challenge.name }}</span>
@@ -55,7 +55,7 @@
                                 {% endif %}
                             </div>
                         {% endif %}
-                        
+
                     {% endfor %}
                 {% else %}
                     <p style="color: red;">目前無任務</p>
@@ -71,9 +71,9 @@
         function toggleContent(contentId) {
             const content = document.getElementById(contentId);
             const header = content.previousElementSibling;
-    
+
             content.classList.toggle('active');
-    
+
             header.classList.toggle('active');
         }
     </script>
