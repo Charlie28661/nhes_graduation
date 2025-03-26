@@ -45,8 +45,14 @@
                             </div>
                             <div class="tab-content" id="content{{ challenge.labId }}">
                                 <p>述敘: {{ challenge.description }}</p>
-                                <p>分數: {{ challenge.score }}</p>
 
+                                {% if challenge.score == 100 %}
+                                    <p>難度: 簡單</p>
+                                {% elif challenge.score == 200 %}
+                                    <p>難度: 普通</p>
+                                {% else %}
+                                    <p>難度: 困難</p>
+                                {% endif %}
 
                                 {% if challenge.completed %}
                                     <p>狀態: <strong style="color: green;">已完成</strong></p>

@@ -12,5 +12,12 @@
         "description": "\u7121",
         "score": 200,
         "active": "Visible"
+    },
+    {
+        "labId": 3,
+        "name": "\u6e2c\u8a66\u984c03",
+        "description": "\u7121",
+        "score": 300,
+        "active": "Visible"
     }
 ]
