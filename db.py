@@ -47,6 +47,7 @@ def setPercentageZero():
 
 challengeFile = "challenge.json"
 answerFile = "answer.json"
+genFile = "gen_answer.json"
 
 def challengeJson():
     with open(challengeFile, "r") as file:
@@ -73,8 +74,6 @@ def answerChallenge(userId, labId, status):
 
     with open(answerFile, "w") as file:
         json.dump(data, file, indent=4)
-
-#answerChallenge(111004, 1, "Completed")
 
 def lookupAnswerFile(userId):
     try:
@@ -116,7 +115,7 @@ def addChallenge(labId, labName, labDescription, labScore, labActive):
 
 
 def updateLab(labId, labName, labDescription, labScore, labActive):
-    
+
     with open(challengeFile, "r") as file:
         data = json.load(file)
 
@@ -136,19 +135,63 @@ def showAllChallenge():
 
     with open(challengeFile, "r") as file:
         data = json.load(file)
-    
+
     for hideChallenge in data:
         hideChallenge["active"] = "Visible"
-    
+
     with open(challengeFile, 'w') as f:
         json.dump(data, f, indent=4)
 
 def hideAllChallenge():
     with open(challengeFile, "r") as file:
             data = json.load(file)
-        
+
     for hideChallenge in data:
         hideChallenge["active"] = "Invisible"
-    
+
     with open(challengeFile, 'w') as f:
         json.dump(data, f, indent=4)
+
+def addAnsCode(labId, code, userName):
+
+    new_entry = {
+        "labId": int(labId),
+        "code": code,
+        "genBy": userName,
+        "used": 0
+    }
+
+    try:
+        with open(genFile, "r") as file:
+            data = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        data = []
+
+    data.append(new_entry)
+
+    with open(genFile, "w") as file:
+        json.dump(data, file, indent=4)
+
+def updateGenFile(labId, getAns, username):
+
+    try:
+        with open(genFile, "r") as file:
+            data = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        status = 0
+        return status
+
+    updated = False
+    for check in data:
+        if int(labId) == int(check["labId"]) and str(getAns) == str(check["code"]) and check["used"] != 1:
+            check["used"] = 1
+            updated = True
+            break
+
+    if updated:
+        with open(genFile, 'w') as f:
+            json.dump(data, f, indent=4)
+            answerChallenge(int(username), int(labId), "Completed")
+        return True
+    else:
+        return False

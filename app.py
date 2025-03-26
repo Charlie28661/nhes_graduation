@@ -1,4 +1,6 @@
 import db
+import random
+import string
 from flask import g
 from flask import Flask
 from flask import url_for
@@ -16,6 +18,10 @@ def close_connection(exception):
     db = getattr(g, "_database", None)
     if db is not None:
         db.close()
+
+def random_letter():
+    letters = ''.join(random.choices(string.ascii_uppercase, k=4))
+    return letters
 
 @app.route("/", methods = ["GET", "POST"])
 @app.route("/login", methods = ["GET", "POST"])
@@ -55,6 +61,10 @@ def dashboard():
         return redirect(url_for("login"))
 
     userData = db.selectUserDataById(username)
+
+    if userData[3] == "teacher":
+        return redirect(url_for("teacher"))
+
     userId = userData[0]
     userName = userData[2]
     userRole = userData[3]
@@ -82,6 +92,28 @@ def dashboard():
         )
 
     return render_template("dashboard.html", **locals())
+
+@app.route("/teacher")
+def teacher():
+
+    username = session.get("username")
+    if "username" not in session:
+        return redirect(url_for("login"))
+
+    userData = db.selectUserDataById(username)
+
+    if userData[3] != "teacher":
+        return redirect(url_for("login"))
+
+    userName = userData[2]
+    userRole = userData[3]
+
+    if userRole == "teacher":
+        userRole = "教師"
+
+    allChallenge = db.challengeJson()
+
+    return render_template("teacher.html", **locals())
 
 @app.route("/admin", methods = ["GET", "POST"])
 def admin():
@@ -148,9 +180,48 @@ def adminPanel():
 def scoreboard():
 
     getAllUserData = db.selectAllUserData()
+    getAllUserData.sort(key=lambda x: int(x[4]), reverse=True)
 
     return render_template("scoreboard.html", **locals())
 
+@app.route("/teacherGenAnswer")
+def teacherGenAnswer():
+
+    username = session.get("username")
+    if "username" not in session:
+        return redirect(url_for("login"))
+
+    userData = db.selectUserDataById(username)
+
+    if userData[3] != "teacher":
+        return redirect(url_for("login"))
+
+    labId = request.args.get("labId")
+    code = random_letter()
+    userName = userData[2]
+
+    db.addAnsCode(labId, code, userName)
+
+    return render_template("teacherGenAnswer.html", **locals())
+
+@app.route("/submit", methods = ["GET", "POST"])
+def submit():
+
+    username = session.get("username")
+    if "username" not in session:
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+
+        labId = request.values["labId"]
+        getAns = request.values["ans"]
+
+    status = db.updateGenFile(labId, getAns, username)
+
+    if status:
+        return "<script>alert(\"答題成功!\");location.href = \"/dashboard\";</script>"
+    else:
+        return "<script>alert(\"題目不匹配或驗證碼錯誤!!!\");location.href = \"/dashboard\";</script>"
 
 @app.route("/setPercentageZero")
 def setPercentageZero():
@@ -183,4 +254,4 @@ def hideAllChallenge():
     return redirect(url_for("adminPanel"))
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5800, debug=True)
+    app.run(host="0.0.0.0", port=5800, debug=False)

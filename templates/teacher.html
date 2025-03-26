@@ -17,23 +17,8 @@
             </div>
         </header>
 
-        <section class="progress-overview">
-            <h2>你的進度</h2>
-            {% if percentage %}
-                <div class="progress-bar">
-                    <div class="progress" style="width: {{ percentage }}%;"></div>
-                </div>
-                <p>已完成 {{ percentage }}%</p>
-            {% else %}
-                <div class="progress-bar">
-                    <div class="progress" style="width: 0%;"></div>
-                </div>
-                <p>已完成 0%</p>
-            {% endif %}
-        </section>
-
         <section class="challenges">
-            <h2>所有任務</h2>
+            <h2>所有題目</h2>
             <div class="challenge-info">
 
                 {% if allChallenge %}
@@ -41,24 +26,13 @@
 
                         {%  if challenge.active == "Visible" %}
                             <div class="tab-header" onclick="toggleContent('content{{ challenge.labId }}')">
-                                <span>任務 {{ challenge.labId }}: {{ challenge.name }}</span>
+                                <span>題目 {{ challenge.labId }}: {{ challenge.name }}</span>
                             </div>
                             <div class="tab-content" id="content{{ challenge.labId }}">
                                 <p>述敘: {{ challenge.description }}</p>
                                 <p>分數: {{ challenge.score }}</p>
-
-
-                                {% if challenge.completed %}
-                                    <p>狀態: <strong style="color: green;">已完成</strong></p>
-                                {% else %}
-                                    <p>狀態: <strong style="color: red;">未完成</strong></p>
-                                    <br>
-                                    <form action="submit" method="post">
-                                        <input type="text" name="labId" value="{{ challenge.labId }}" hidden>
-                                        <input type="text" name="ans" placeholder="答案">
-                                        <input type="submit" class="submit-button">
-                                    </form>
-                                {% endif %}
+                                <br>
+                                <a href="/teacherGenAnswer?labId={{ challenge.labId }}"><ins>產生答案</ins></a>
                             </div>
                         {% endif %}
 
