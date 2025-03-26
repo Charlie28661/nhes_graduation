@@ -19,13 +19,21 @@
 
                 <label for="password">班級座號</label>
                 <input type="password" name="password" placeholder="30XXX">
-                <button type="submit">Log In</button>
+                <button type="submit">Login</button>
             </form>
             <div class="error_message">
                 {% if error %}
                     <p>{{ error }}</p>
                 {% endif %}
             </div>
+        </div>
+        <div class="splitline">
+            <hr>
+            <span>or</span>
+            <hr>
+        </div>
+        <div class="scorelink">
+            <a href="/scoreboard">查看排名</a>
         </div>
     </div>
 </body>

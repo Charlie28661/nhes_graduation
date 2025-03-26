@@ -6,6 +6,11 @@
     box-sizing: border-box;
 }
 
+a {
+    color: black;
+    text-decoration: none;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
@@ -69,4 +74,29 @@ button:hover {
 .error_message {
     color: red;
     margin-top: 10px;
+}
+
+.splitline {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.splitline hr {
+    flex-grow: 1;
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.splitline span {
+    white-space: nowrap;
+    font-weight: bold;
+    color: #666;
+    font-size: 16px;
+}
+
+.scorelink {
+    margin-top: 3px;
 }
