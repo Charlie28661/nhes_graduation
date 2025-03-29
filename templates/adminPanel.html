@@ -14,6 +14,7 @@
         <div class="tab" id="tab1" onclick="showTab(1)">成員列表</div>
         <div class="tab" id="tab2" onclick="showTab(2)">題目列表</div>
         <div class="tab" id="tab3" onclick="showTab(3)">題目管理</div>
+        <div class="tab" id="tab4" onclick="showTab(4)">通行碼狀態</div>
     </div>
 
     <div class="tab-content" id="content1">
@@ -61,7 +62,15 @@
                     <td>{{ challenge["labId"] }}</td>
                     <td>{{ challenge["name"] }}</td>
                     <td>{{ challenge["description"] }}</td>
-                    <td>{{ challenge["score"] }}</td>
+
+                    {% if challenge.score == 100 %}
+                        <td>簡單</td>
+                    {% elif challenge.score == 200 %}
+                        <td>普通</td>
+                    {% else %}
+                        <td>困難</td>
+                    {% endif %}
+
                     <td>{{ challenge["active"] }}</td>
                 </tr>
                 {% endfor %}
@@ -107,6 +116,34 @@
                 <button type="submit">確定</button>
             </form>
         </div>
+    </div>
+    <div class="tab-content" id="content4">
+        <h2>通行碼狀態</h2>
+        <br>
+        <table class="demTable">
+            <thead>
+                <tr>
+                    <th>題目編號</th>
+                    <th>通行碼</th>
+                    <th>產生教師</th>
+                    <th>是否使用</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for answerCodeStatus in genAnswerCodeStatus %}
+                <tr>
+                    <td>{{ answerCodeStatus["labId"] }}</td>
+                    <td>{{ answerCodeStatus["code"] }}</td>
+                    <td>{{ answerCodeStatus["genBy"] }}</td>
+                    {% if answerCodeStatus["used"] == 1 %}
+                        <td>已使用</td>
+                    {% else %}
+                        <td>未使用</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <div class="logout-btn-b">

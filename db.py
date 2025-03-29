@@ -202,3 +202,14 @@ def updateGenFile(labId, getAns, username):
         return True
     else:
         return False
+    
+
+def lookUpGenFile():
+
+    try:
+        with open(genFile, "r") as file:
+            data = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass
+
+    return data

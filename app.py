@@ -188,6 +188,8 @@ def adminPanel():
         else:
             db.updateLab(labId, labName, labDescription, labScore, labActive)
             return redirect(url_for("adminPanel"))
+        
+    genAnswerCodeStatus = db.lookUpGenFile()
 
     return render_template("adminPanel.html", **locals())
 
