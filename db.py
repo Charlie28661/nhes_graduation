@@ -28,6 +28,13 @@ def selectAllUserData():
         cur.execute("SELECT * FROM users")
         data = cur.fetchall()
         return data
+    
+def selectAllUserId():
+    with app.app_context():
+        cur = get_db().cursor()
+        cur.execute("SELECT ID FROM users")
+        data = cur.fetchall()
+        return data
 
 def updatePercentage(percentage, id):
     with app.app_context():

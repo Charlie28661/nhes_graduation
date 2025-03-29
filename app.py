@@ -146,6 +146,7 @@ def adminPanel():
 
     getAllUserData = db.selectAllUserData()
     allChallenge = db.challengeJson()
+
     if allChallenge:
         maxChallenge = max(allChallenge, key=lambda x: x["labId"])["labId"]
     else:
@@ -168,11 +169,25 @@ def adminPanel():
 
         if labId > maxChallenge:
             db.addChallenge(labId, labName, labDescription, labScore, labActive)
+
+            getAllUserId = db.selectAllUserId()
+
+            for userId in getAllUserId:
+                checkAnswerStatus = db.lookupAnswerFile(int(userId[0]))
+
+                if allChallenge:
+                    maxChallenge = max(allChallenge, key=lambda x: x["labId"])["labId"]
+                    percentage = (len(checkAnswerStatus) / maxChallenge) * 100
+                    percentage = int(percentage)
+                    db.updatePercentage(percentage, userId[0])
+                else:
+                    maxChallenge = None
+                    break
+
             return redirect(url_for("adminPanel"))
         else:
             db.updateLab(labId, labName, labDescription, labScore, labActive)
             return redirect(url_for("adminPanel"))
-
 
     return render_template("adminPanel.html", **locals())
 
