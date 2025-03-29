@@ -253,5 +253,9 @@ def hideAllChallenge():
     db.hideAllChallenge()
     return redirect(url_for("adminPanel"))
 
+@app.route("/docs/")
+def docs():
+    return render_template("/docs/docs.html")
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5800, debug=False)
