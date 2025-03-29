@@ -24,10 +24,12 @@
                 </tr> -->
 
                 {% for getAllUser in getAllUserData %}
-                <tr>
-                    <td>{{ getAllUser[2] }}</td>
-                    <td>{{ getAllUser[4] }}%</td>
-                </tr>
+                    {% if getAllUser[3] == "student" %}
+                        <tr>
+                            <td>{{ getAllUser[1][0:3] }} {{ getAllUser[2] }}</td>
+                            <td>{{ getAllUser[4] }}%</td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
