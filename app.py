@@ -146,6 +146,7 @@ def adminPanel():
 
     getAllUserData = db.selectAllUserData()
     allChallenge = db.challengeJson()
+    getAllTeacher = db.selectTeacherRole()
 
     if allChallenge:
         maxChallenge = max(allChallenge, key=lambda x: x["labId"])["labId"]
@@ -156,6 +157,7 @@ def adminPanel():
         labId = request.values["labId"]
         labName = request.values["name"]
         labDescription = request.values["description"]
+        labGenPermission = request.values["permission"]
         labScore = request.values["score"]
         labActive = request.values["active"]
 
@@ -168,7 +170,7 @@ def adminPanel():
             labDescription = str(allChallenge[labId-1]["description"])
 
         if labId > maxChallenge:
-            db.addChallenge(labId, labName, labDescription, labScore, labActive)
+            db.addChallenge(labId, labName, labDescription, labGenPermission, labScore, labActive)
 
             getAllUserId = db.selectAllUserId()
 
@@ -186,7 +188,7 @@ def adminPanel():
 
             return redirect(url_for("adminPanel"))
         else:
-            db.updateLab(labId, labName, labDescription, labScore, labActive)
+            db.updateLab(labId, labName, labDescription, labGenPermission, labScore, labActive)
             return redirect(url_for("adminPanel"))
         
     genAnswerCodeStatus = db.lookUpGenFile()
@@ -214,10 +216,20 @@ def teacherGenAnswer():
         return redirect(url_for("login"))
 
     labId = request.args.get("labId")
-    code = random_letter()
+
+    getAllChallenge = db.challengeJson()
     userName = userData[2]
 
-    db.addAnsCode(labId, code, userName)
+    for getChallengePermission in getAllChallenge:
+
+        if getChallengePermission["labId"] == int(labId):
+
+            if userName == getChallengePermission["permission"] or getChallengePermission["permission"] == "None":
+                code = random_letter()
+                db.addAnsCode(labId, code, userName)
+                break
+            else:
+                return "<script>alert(\"權限不足\");location.href = \"/teacher\";</script>"
 
     return render_template("teacherGenAnswer.html", **locals())
 

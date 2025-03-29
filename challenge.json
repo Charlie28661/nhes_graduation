@@ -3,6 +3,7 @@
         "labId": 1,
         "name": "\u6e2c\u8a66\u984c01",
         "description": "\u7121",
+        "permission": "teacher22",
         "score": 100,
         "active": "Visible"
     },
@@ -10,14 +11,8 @@
         "labId": 2,
         "name": "\u6e2c\u8a66\u984c02",
         "description": "\u7121",
-        "score": 200,
-        "active": "Visible"
-    },
-    {
-        "labId": 3,
-        "name": "\u6e2c\u8a66\u984c03",
-        "description": "\u7121",
-        "score": 300,
+        "permission": "teacher11",
+        "score": 100,
         "active": "Visible"
     }
 ]

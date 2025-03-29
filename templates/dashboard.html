@@ -46,6 +46,12 @@
                             <div class="tab-content" id="content{{ challenge.labId }}">
                                 <p>述敘: {{ challenge.description }}</p>
 
+                                {% if challenge.permission == "None" %}
+                                    <p>指定老師: 無</p>
+                                {% else %}
+                                    <p>指定老師: {{ challenge.permission }}</p>
+                                {% endif %}
+
                                 {% if challenge.score == 100 %}
                                     <p>難度: 簡單</p>
                                 {% elif challenge.score == 200 %}

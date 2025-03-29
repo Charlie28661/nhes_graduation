@@ -50,6 +50,13 @@ def setPercentageZero():
         get_db().commit()
         cur.close()
 
+def selectTeacherRole():
+    with app.app_context():
+        cur = get_db().cursor()
+        cur.execute("SELECT NAME, ROLE FROM users WHERE ROLE = 'teacher'")
+        data = cur.fetchall()
+        return data
+
 ## json
 
 challengeFile = "challenge.json"
@@ -57,11 +64,15 @@ answerFile = "answer.json"
 genFile = "gen_answer.json"
 
 def challengeJson():
-    with open(challengeFile, "r") as file:
-        data = json.load(file)
-        if data is None:
-            pass
-        return data
+    
+    try:
+        with open(challengeFile, "r") as file:
+            data = json.load(file)
+            if data is None:
+                pass
+            return data
+    except(FileNotFoundError, json.JSONDecodeError):
+        return []
 
 def answerChallenge(userId, labId, status):
 
@@ -99,12 +110,13 @@ def lookupAnswerFile(userId):
 
     return result
 
-def addChallenge(labId, labName, labDescription, labScore, labActive):
+def addChallenge(labId, labName, labDescription, labGenPermission,labScore, labActive):
 
     new_entry = {
         "labId": int(labId),
         "name": labName,
         "description": labDescription,
+        "permission": labGenPermission,
         "score": int(labScore),
         "active": labActive
     }
@@ -121,7 +133,7 @@ def addChallenge(labId, labName, labDescription, labScore, labActive):
         json.dump(data, file, indent=4)
 
 
-def updateLab(labId, labName, labDescription, labScore, labActive):
+def updateLab(labId, labName, labDescription, labGenPermission,labScore, labActive):
 
     with open(challengeFile, "r") as file:
         data = json.load(file)
@@ -131,6 +143,7 @@ def updateLab(labId, labName, labDescription, labScore, labActive):
             challenge["labId"] = int(labId)
             challenge["name"] = labName
             challenge["description"] = labDescription
+            challenge["permission"] = labGenPermission
             challenge["score"] = int(labScore)
             challenge["active"] = labActive
             break
@@ -202,7 +215,6 @@ def updateGenFile(labId, getAns, username):
         return True
     else:
         return False
-    
 
 def lookUpGenFile():
 
@@ -210,6 +222,6 @@ def lookUpGenFile():
         with open(genFile, "r") as file:
             data = json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
-        pass
+        data = []
 
     return data

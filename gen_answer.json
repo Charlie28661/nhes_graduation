@@ -1,14 +1,38 @@
 [
     {
-        "labId": 1,
-        "code": "VYYU",
+        "labId": 2,
+        "code": "LVFE",
         "genBy": "teacher11",
-        "used": 1
+        "used": 0
+    },
+    {
+        "labId": 2,
+        "code": "HCRZ",
+        "genBy": "teacher11",
+        "used": 0
     },
     {
         "labId": 1,
-        "code": "RQBD",
+        "code": "VEIY",
         "genBy": "teacher11",
+        "used": 0
+    },
+    {
+        "labId": 2,
+        "code": "YOXN",
+        "genBy": "teacher11",
+        "used": 0
+    },
+    {
+        "labId": 2,
+        "code": "QJIU",
+        "genBy": "teacher11",
+        "used": 0
+    },
+    {
+        "labId": 1,
+        "code": "SZEH",
+        "genBy": "teacher22",
         "used": 0
     }
 ]

@@ -52,6 +52,7 @@
                     <th>題目序號</th>
                     <th>題目名稱</th>
                     <th>題目敘述</th>
+                    <th>題目權限限制</th>
                     <th>題目難度</th>
                     <th>題目狀況</th>
                 </tr>
@@ -62,6 +63,7 @@
                     <td>{{ challenge["labId"] }}</td>
                     <td>{{ challenge["name"] }}</td>
                     <td>{{ challenge["description"] }}</td>
+                    <td>{{ challenge["permission"] }}</td>
 
                     {% if challenge.score == 100 %}
                         <td>簡單</td>
@@ -99,6 +101,14 @@
 
                 <label for="description">題目敘述</label>
                 <input type="text" name="description">
+
+                <label for="permission">通行碼生成限制</label>
+                <select name="permission">
+                    <option value="None">無</option>
+                    {% for allTeacher in getAllTeacher %}
+                        <option value="{{ allTeacher[0] }}">{{ allTeacher[0] }}</option>
+                    {% endfor %}
+                </select>
 
                 <label for="score">題目難度</label>
                 <select name="score">
