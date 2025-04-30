@@ -11,7 +11,7 @@ from flask import render_template
 
 
 app = Flask(__name__)
-app.secret_key = "NHES"
+app.secret_key = "XXX"
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -44,6 +44,8 @@ def login():
 
                 return redirect(url_for("dashboard"))
             else:
+                error = "請輸入正確帳號密碼"
+        else:
                 error = "請輸入正確帳號密碼"
 
     return render_template("login.html", **locals())
