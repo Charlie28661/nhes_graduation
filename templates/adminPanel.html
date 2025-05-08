@@ -91,7 +91,7 @@
                 <label for="labId">題目序號</label>
                 <select name="labId">
                     {% for selectNum in allChallenge %}
-                        <option value="{{ selectNum.labId }}">{{ selectNum.labId }}</option>
+                        <option value="{{ selectNum.labId }}">{{ selectNum.labId }}【{{ selectNum.name }}】</option>
                     {% endfor %}
                     <option value="{{ maxChallenge + 1}}">{{ maxChallenge + 1}} (新增題目)</option>
                 </select>
