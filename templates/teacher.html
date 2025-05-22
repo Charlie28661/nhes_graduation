@@ -26,10 +26,10 @@
 
                         {%  if challenge.active == "Visible" %}
                             <div class="tab-header" onclick="toggleContent('content{{ challenge.labId }}')">
-                                <span>題目 {{ challenge.labId }}: {{ challenge.name }}</span>
+                                <span>題目名稱: {{ challenge.name }}</span>
                             </div>
                             <div class="tab-content" id="content{{ challenge.labId }}">
-                                <p>述敘: {{ challenge.description }}</p>
+                                <p>題目敘述: {{ challenge.description }}</p>
                                 
                                 {% if challenge.permission == "None" %}
                                     <p>指定老師: 無</p>
